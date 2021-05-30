@@ -6,9 +6,9 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,18 +16,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Timer;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>{
+    interface OnUserClickListener{
+        void onUserClick(UserModel userModel, int position);
+    }
 
     private final List<UserModel> list;
     private Context parent;
     private Intent intent;
 
+    private final OnUserClickListener onClickListener;
 
 
-    public UserAdapter(List<UserModel> list) {
+
+    public UserAdapter(List<UserModel> list, OnUserClickListener onClickListener) {
         this.list = list;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -46,9 +51,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         Picasso.get().load(user.getImageId()).into(holder.pizzaPhoto);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                onClickListener.onUserClick(user, position);
             }
         });
 
@@ -72,6 +78,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         TextView textName, textAge, textJob;
 
+        Button button;
+
         ImageView pizzaPhoto;
 
         public UserViewHolder(View itemView) {
@@ -81,14 +89,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             textName = (TextView) itemView.findViewById(R.id.text_name);
             textJob =(TextView)  itemView.findViewById(R.id.text_opis);
             pizzaPhoto = (ImageView) itemView.findViewById(R.id.image_pizza);
+            button = (Button)itemView.findViewById(R.id.vkorzina);
 
-//            pizzaPhoto.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    intent = new Intent(parent, Timer.class);
-//                    parent.startActivity(intent);
-//                }
-//            });
+
+
 
         }
 

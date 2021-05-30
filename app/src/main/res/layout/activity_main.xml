@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="click"
-            android:text="Меню" />
+            android:text="Меню"
+            app:backgroundTint="#FF1A1A" />
 
         <Button
             android:id="@+id/kontakt"
@@ -37,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="click"
-            android:text="Контакты" />
+            android:text="Контакты"
+            app:backgroundTint="#FF1A1A"/>
 
         <Button
             android:id="@+id/korzina"
@@ -45,7 +47,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="click"
-            android:text="Корзина" />
+            android:text="Корзина"
+            app:backgroundTint="#FF1A1A"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

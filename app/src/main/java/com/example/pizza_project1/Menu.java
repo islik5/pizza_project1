@@ -1,5 +1,6 @@
 package com.example.pizza_project1;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +25,12 @@ import java.util.List;
 
 public class Menu extends Fragment {
 
+    interface OnFragmentSendDataListener {
+        void onSendData(Button button);
+    }
+
+
+    private OnFragmentSendDataListener fragmentSendDataListener;
 
     private RecyclerView recyclerView;
     private List<UserModel> result;
@@ -30,7 +39,16 @@ public class Menu extends Fragment {
     private FirebaseDatabase database;
     private DatabaseReference reference;
 
-
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            fragmentSendDataListener = (OnFragmentSendDataListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " должен реализовывать интерфейс OnFragmentInteractionListener");
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,7 +68,14 @@ public class Menu extends Fragment {
         recyclerView.setLayoutManager(lim);
 
 
-        adapter = new UserAdapter(result);
+        adapter = new UserAdapter(result, new UserAdapter.OnUserClickListener() {
+            @Override
+            public void onUserClick(UserModel userModel, int position) {
+                Toast.makeText(getActivity(), "Пицца "+ userModel.getFirstName()+" добавлена  в корзину",
+                        Toast.LENGTH_SHORT).show();
+                fragmentSendDataListener.onSendData(view.findViewById(R.id.vkorzina));
+            }
+        });
         recyclerView.setAdapter(adapter);
 
         updateList();

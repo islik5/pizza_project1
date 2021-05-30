@@ -7,38 +7,52 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSendDataListener{
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    Fragment fr_menu;
+    Fragment fr_kontakt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fr_kontakt = new kontakt();
+        fr_menu = new Menu();
     }
 
     public void click(View view) {
-        Fragment fragment = null;
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         switch (view.getId()){
             case R.id.menu:
-                fragment = new Menu();
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_menu);
                 break;
             case R.id.kontakt:
-                fragment = new kontakt();
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_kontakt);
                 break;
             case R.id.korzina:
-                fragment = new Menu();
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_menu);
+                break;
+            case R.id.vkorzina:
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_kontakt);
                 break;
         }
 
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
+
+
         fragmentTransaction.commit();
     }
 
+    @Override
+    public void onSendData(Button button) {
+        click(button);
+    }
 }
