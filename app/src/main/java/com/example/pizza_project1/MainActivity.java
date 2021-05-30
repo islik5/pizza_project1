@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
 
     Fragment fr_menu;
     Fragment fr_kontakt;
+    Fragment fr_korz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
 
         fr_kontakt = new kontakt();
         fr_menu = new Menu();
+        fr_korz = new Korzina();
     }
 
     public void click(View view) {
@@ -39,10 +41,10 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
                 fragmentTransaction.replace(R.id.fragmentContainerView, fr_kontakt);
                 break;
             case R.id.korzina:
-                fragmentTransaction.replace(R.id.fragmentContainerView, fr_menu);
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_korz);
                 break;
             case R.id.vkorzina:
-                fragmentTransaction.replace(R.id.fragmentContainerView, fr_kontakt);
+                fragmentTransaction.replace(R.id.fragmentContainerView, fr_korz);
                 break;
         }
 
@@ -53,6 +55,6 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
 
     @Override
     public void onSendData(Button button) {
-        click(button);
+//        click(button);
     }
 }

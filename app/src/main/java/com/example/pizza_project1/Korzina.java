@@ -1,8 +1,6 @@
 package com.example.pizza_project1;
 
-import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,12 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,14 +21,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Menu extends Fragment {
 
-    interface OnFragmentSendDataListener {
-        void onSendData(Button button);
-    }
+public class Korzina extends Fragment {
 
-
-    private OnFragmentSendDataListener fragmentSendDataListener;
+    private Menu.OnFragmentSendDataListener fragmentSendDataListener;
 
     private RecyclerView recyclerView;
     private List<UserModel> result;
@@ -44,25 +34,15 @@ public class Menu extends Fragment {
     private DatabaseReference reference;
 
 
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            fragmentSendDataListener = (OnFragmentSendDataListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " должен реализовывать интерфейс OnFragmentInteractionListener");
-        }
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_korzina, container, false);
 
 
         database = FirebaseDatabase.getInstance();
-        reference = database.getReference("users");
+        reference = database.getReference("Korz");
 
         result = new ArrayList<>();
 
