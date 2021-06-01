@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -22,13 +24,17 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class Korzina extends Fragment {
+public class Korzina extends Fragment{
+
+    private Button button;
+
+    private TextView textView;
 
     private Menu.OnFragmentSendDataListener fragmentSendDataListener;
 
     private RecyclerView recyclerView;
-    private List<UserModel> result;
-    public UserAdapter adapter;
+    private List<Model> result;
+    public Adapter adap;
 
     private FirebaseDatabase database;
     private DatabaseReference reference;
@@ -37,9 +43,8 @@ public class Korzina extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_korzina, container, false);
-
+        button = (Button) view.findViewById(R.id.zakaz);
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Korz");
@@ -53,33 +58,30 @@ public class Korzina extends Fragment {
 
         recyclerView.setLayoutManager(lim);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        adapter = new UserAdapter(result, new UserAdapter.OnUserClickListener() {
+
+
+        adap = new Adapter(getActivity(),result, new Adapter.OnUserClickListener() {
             @Override
-            public void onUserClick(UserModel userModel, int position) {
-                Toast.makeText(getActivity(), "Пицца "+ userModel.getFirstName()+" добавлена  в корзину",
-                        Toast.LENGTH_SHORT).show();
-                fragmentSendDataListener.onSendData(view.findViewById(R.id.vkorzina));
-
-                HashMap<Object, String> hashMap = new HashMap<>();
-
-                hashMap.put("firstName", userModel.firstName);
-                hashMap.put("lastName", userModel.lastName);
-                hashMap.put("imageId", userModel.imageId);
-                hashMap.put("job", userModel.job);
-                hashMap.put("key", userModel.key);
-                hashMap.put("age", userModel.age);
-
-
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
+            public void onUserClick(Model userModel, int position) {
 
                 DatabaseReference reference = database.getReference("Korz");
 
-                reference.child(userModel.lastName).setValue(hashMap);
+                reference.child(userModel.lastName).removeValue();
 
             }
         });
-        recyclerView.setAdapter(adapter);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getActivity(), "Пицца заказана",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerView.setAdapter(adap);
 
         updateList();
 //        createResult();
@@ -105,7 +107,7 @@ public class Korzina extends Fragment {
 //    private void createResult(){
 //
 //        for (int i = 0; i < 12; i++) {
-//            result.add(new UserModel("name","lastname","job","15","","https://i.stack.imgur.com/mijgV.png"));
+//            result.add(new Model("name","lastname","job","15","","https://i.stack.imgur.com/mijgV.png"));
 //        }
 //    }
 
@@ -114,32 +116,27 @@ public class Korzina extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                UserModel model = dataSnapshot.getValue(UserModel.class);
-                model.setKey(dataSnapshot.getKey());
-                result.add(dataSnapshot.getValue(UserModel.class));
-                adapter.notifyDataSetChanged();
+                result.add(dataSnapshot.getValue(Model.class));
+                adap.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                UserModel model = dataSnapshot.getValue(UserModel.class);
+                Model model = dataSnapshot.getValue(Model.class);
                 int index = getItemIndex(model);
-                model.setKey(dataSnapshot.getKey());
+
                 result.set(index, model);
-                adapter.notifyItemChanged(index);
+                adap.notifyItemChanged(index);
 
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                UserModel model = dataSnapshot.getValue(UserModel.class);
-                model.setKey(dataSnapshot.getKey());
+                Model model = dataSnapshot.getValue(Model.class);
                 int index = getItemIndex(model);
-                result.remove(index);
-                adapter.notifyItemRemoved(index);
 
+                result.remove(index);
+                adap.notifyItemRemoved(index);
             }
 
             @Override
@@ -154,7 +151,7 @@ public class Korzina extends Fragment {
         });
 
     }
-    private int getItemIndex(UserModel user){
+    private int getItemIndex(Model user){
         int index = -1;
 
         for (int i = 0; i < result.size(); i++) {

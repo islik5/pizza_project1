@@ -23,14 +23,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     private final List<UserModel> list;
-    private Context parent;
-    private Intent intent;
+
+    private final LayoutInflater inflater;
 
     private final OnUserClickListener onClickListener;
 
 
 
-    public UserAdapter(List<UserModel> list, OnUserClickListener onClickListener) {
+    public UserAdapter(Context context,List<UserModel> list, OnUserClickListener onClickListener) {
+        this.inflater = LayoutInflater.from(context);
         this.list = list;
         this.onClickListener = onClickListener;
     }
@@ -41,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final UserViewHolder holder, int position) {
+    public void onBindViewHolder(UserViewHolder holder, int position) {
 
         UserModel user = list.get(position);
 
@@ -59,13 +60,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         });
 
 
-        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-            @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                menu.add(holder.getAdapterPosition(), 0, 0,"Удалить");
-
-            }
-        });
 
     }
 
@@ -90,9 +84,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             textJob =(TextView)  itemView.findViewById(R.id.text_opis);
             pizzaPhoto = (ImageView) itemView.findViewById(R.id.image_pizza);
             button = (Button)itemView.findViewById(R.id.vkorzina);
-
-
-
 
         }
 

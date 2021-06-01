@@ -9,7 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
-        android:id="@+id/image_pizza"
+        android:id="@+id/image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,41 +18,42 @@
         app:srcCompat="@android:drawable/screen_background_light"/>
 
     <TextView
-        android:id="@+id/text_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="0dp"
+        android:id="@+id/name"
+        android:textColor="#000"
         android:text="Имя Фамилия"
-        android:textColor="#000" />
+        android:layout_marginLeft="120dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/text_opis"
-        android:layout_width="209dp"
-        android:layout_height="56dp"
-        android:layout_below="@id/text_name"
+        android:id="@+id/opis"
+        android:layout_width="203dp"
+        android:layout_height="59dp"
+        android:layout_below="@id/name"
         android:layout_marginLeft="120dp"
+        android:layout_marginTop="0dp"
         android:text="Работа"
         android:textColor="#000" />
 
     <TextView
-        android:id="@+id/text_price"
+        android:id="@+id/price"
         android:textColor="#000"
         android:text="20"
         android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="0dp"/>
+        android:layout_alignParentRight="true"/>
 
     <Button
-        android:id="@+id/vkorzina"
-        android:layout_width="150dp"
+        android:id="@+id/delete"
+        android:layout_width="130dp"
         android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="80dp"
+        android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
         android:backgroundTint="#FF1A1A"
-        android:text="В корзину" />
+        android:text="Удалить" />
 
 </RelativeLayout>

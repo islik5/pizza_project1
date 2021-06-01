@@ -74,7 +74,7 @@ public class Menu extends Fragment {
         recyclerView.setLayoutManager(lim);
 
 
-        adapter = new UserAdapter(result, new UserAdapter.OnUserClickListener() {
+        adapter = new UserAdapter(getActivity(),result, new UserAdapter.OnUserClickListener() {
             @Override
             public void onUserClick(UserModel userModel, int position) {
                 Toast.makeText(getActivity(), "Пицца "+ userModel.getFirstName()+" добавлена  в корзину",
@@ -83,7 +83,7 @@ public class Menu extends Fragment {
 
                 HashMap<Object, String> hashMap = new HashMap<>();
 
-                hashMap.put("firstName", userModel.firstName);
+                hashMap.put("frName", userModel.firstName);
                 hashMap.put("lastName", userModel.lastName);
                 hashMap.put("imageId", userModel.imageId);
                 hashMap.put("job", userModel.job);
@@ -134,8 +134,6 @@ public class Menu extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                UserModel model = dataSnapshot.getValue(UserModel.class);
-                model.setKey(dataSnapshot.getKey());
                 result.add(dataSnapshot.getValue(UserModel.class));
                 adapter.notifyDataSetChanged();
             }
@@ -145,7 +143,6 @@ public class Menu extends Fragment {
 
                 UserModel model = dataSnapshot.getValue(UserModel.class);
                 int index = getItemIndex(model);
-                model.setKey(dataSnapshot.getKey());
                 result.set(index, model);
                 adapter.notifyItemChanged(index);
 
@@ -155,7 +152,6 @@ public class Menu extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 UserModel model = dataSnapshot.getValue(UserModel.class);
-                model.setKey(dataSnapshot.getKey());
                 int index = getItemIndex(model);
                 result.remove(index);
                 adapter.notifyItemRemoved(index);
