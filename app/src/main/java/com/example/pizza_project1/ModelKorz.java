@@ -9,13 +9,13 @@ public class ModelKorz {
     String key;
     String imageId;
     String age;
-    int count = 1;
+    String count;
 
 
 
     public ModelKorz(){}
 
-    public ModelKorz(String firstName, String frName, String lastName, String job, String age, String key, String imageId) {
+    public ModelKorz(String firstName, String frName, String lastName, String job, String age, String key, String imageId, String count) {
         this.firstName = firstName;
         this.frName = frName;
         this.lastName = lastName;
@@ -23,6 +23,7 @@ public class ModelKorz {
         this.age = age;
         this.key = key;
         this.imageId = imageId;
+        this.count = count;
     }
 
     public String getAge() {
@@ -59,11 +60,5 @@ public class ModelKorz {
         return frName;
     }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
 
-    public int getCount() {
-        return count;
-    }
 }

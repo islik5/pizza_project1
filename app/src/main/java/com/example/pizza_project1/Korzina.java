@@ -20,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -40,8 +39,6 @@ public class Korzina extends Fragment{
 
     private FirebaseDatabase database;
     private DatabaseReference reference;
-
-    int count = 1;
 
 
     @Override
@@ -77,45 +74,15 @@ public class Korzina extends Fragment{
             }
 
             @Override
-            public void onUserClickplus(ModelKorz modelKorz, int position) {
+            public void onUserClickplus(ModelKorz userModel, int position) {
                 Toast.makeText(getActivity(), "Плюс",
                         Toast.LENGTH_SHORT).show();
-                count += 1;
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference("Korz");
-
-                HashMap<String, Object> hashMap = new HashMap<>();
-
-                hashMap.put("frName", modelKorz.frName);
-                hashMap.put("lastName", modelKorz.lastName);
-                hashMap.put("imageId", modelKorz.imageId);
-                hashMap.put("job", modelKorz.job);
-                hashMap.put("key", modelKorz.key);
-                hashMap.put("age", modelKorz.age);
-                hashMap.put("count", count);
-
-                reference.child(modelKorz.lastName).setValue(hashMap);
 
             }
             @Override
-            public void onUserClickminus(ModelKorz modelKorz, int position) {
+            public void onUserClickminus(ModelKorz userModel, int position) {
                 Toast.makeText(getActivity(), "Минус",
                         Toast.LENGTH_SHORT).show();
-                count -= 1;
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference("Korz");
-
-                HashMap<String, Object> hashMap = new HashMap<>();
-
-                hashMap.put("frName", modelKorz.frName);
-                hashMap.put("lastName", modelKorz.lastName);
-                hashMap.put("imageId", modelKorz.imageId);
-                hashMap.put("job", modelKorz.job);
-                hashMap.put("key", modelKorz.key);
-                hashMap.put("age", modelKorz.age);
-                hashMap.put("count", count);
-
-                reference.child(modelKorz.lastName).setValue(hashMap);
 
             }
         });

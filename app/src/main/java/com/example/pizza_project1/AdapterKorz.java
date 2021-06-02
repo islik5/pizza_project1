@@ -64,7 +64,7 @@ public class AdapterKorz extends RecyclerView.Adapter<AdapterKorz.UserViewHolder
         holder.textName.setText(user.frName + " " + user.lastName);
         holder.textAge.setText(user.age + "");
         holder.textJob.setText(user.job);
-        holder.kolvo.setText(user.count);
+        holder.kolvo.setText("1");
 
 
         Picasso.get().load(user.getImageId()).into(holder.pizzaPhoto);
@@ -80,13 +80,16 @@ public class AdapterKorz extends RecyclerView.Adapter<AdapterKorz.UserViewHolder
             @Override
             public void onClick(View v) {
                 onClickListenerplus.onUserClickplus(user, position);
-
+                holder.pizzakol +=1;
+                holder.kolvo.setText(holder.pizzakol + "");
             }
         });
         holder.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickListenerminus.onUserClickminus(user, position);
+                holder.pizzakol -=1;
+                holder.kolvo.setText(holder.pizzakol + "");
             }
         });
 
