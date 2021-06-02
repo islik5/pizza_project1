@@ -1,22 +1,16 @@
 package com.example.pizza_project1;
 
-public class Model {
+public class PizzaModel {
 
-    static String firstName;
-    String frName;
-    String lastName;
-    String job;
-    String key;
-    String imageId;
+    String firstName, lastName, job, key, imageId;
     String age;
 
 
 
-    public Model(){}
+    public PizzaModel(){}
 
-    public Model(String firstName,String frName, String lastName, String job, String age, String key, String imageId) {
+    public PizzaModel(String firstName, String lastName, String job, String age, String key, String imageId) {
         this.firstName = firstName;
-        this.frName = frName;
         this.lastName = lastName;
         this.job = job;
         this.age = age;
@@ -30,15 +24,21 @@ public class Model {
 
     public void setAge(String age) { this.age = age; }
 
-    public static String getFirstName() {return firstName;}
+    public String getFirstName() {
+        return firstName;
+    }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getJob() {return job;}
+    public String getJob() {
+        return job;
+    }
 
-    public void setJob(String job) { this.job = job;}
+    public void setJob(String job) { this.job = job; }
 
-    public String getKey() {return key;}
+    public String getKey() {
+        return key;
+    }
 
     public void setKey(String key) { this.key = key; }
 
@@ -50,11 +50,5 @@ public class Model {
 
     public void setImageId(String imageId) {this.imageId = imageId;}
 
-    public void setFrName(String frName) {
-        this.frName = frName;
-    }
 
-    public String getFrName() {
-        return frName;
-    }
 }

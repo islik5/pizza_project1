@@ -29,15 +29,19 @@ public class Korzina extends Fragment{
     private Button button;
 
     private TextView textView;
+    private TextView textView1;
+    private  Button button1;
+    private Button button2;
 
-    private Menu.OnFragmentSendDataListener fragmentSendDataListener;
 
     private RecyclerView recyclerView;
-    private List<Model> result;
-    public Adapter adap;
+    private List<ModelKorz> result;
+    public AdapterKorz adap;
 
     private FirebaseDatabase database;
     private DatabaseReference reference;
+
+    int count = 1;
 
 
     @Override
@@ -45,6 +49,8 @@ public class Korzina extends Fragment{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_korzina, container, false);
         button = (Button) view.findViewById(R.id.zakaz);
+        textView1 = (TextView) view.findViewById(R.id.kolvo);
+
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Korz");
@@ -62,16 +68,59 @@ public class Korzina extends Fragment{
 
 
 
-        adap = new Adapter(getActivity(),result, new Adapter.OnUserClickListener() {
+        adap = new AdapterKorz(getActivity(),result, new AdapterKorz.OnUserClickListener() {
             @Override
-            public void onUserClick(Model userModel, int position) {
+            public void onUserClick(ModelKorz modelKorz, int position) {
 
+                if (getActivity() != null) { MainActivity ma = (MainActivity ) getActivity(); ma.delete(modelKorz, database); }
+
+            }
+
+            @Override
+            public void onUserClickplus(ModelKorz modelKorz, int position) {
+                Toast.makeText(getActivity(), "Плюс",
+                        Toast.LENGTH_SHORT).show();
+                count += 1;
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference reference = database.getReference("Korz");
 
-                reference.child(userModel.lastName).removeValue();
+                HashMap<String, Object> hashMap = new HashMap<>();
+
+                hashMap.put("frName", modelKorz.frName);
+                hashMap.put("lastName", modelKorz.lastName);
+                hashMap.put("imageId", modelKorz.imageId);
+                hashMap.put("job", modelKorz.job);
+                hashMap.put("key", modelKorz.key);
+                hashMap.put("age", modelKorz.age);
+                hashMap.put("count", count);
+
+                reference.child(modelKorz.lastName).setValue(hashMap);
+
+            }
+            @Override
+            public void onUserClickminus(ModelKorz modelKorz, int position) {
+                Toast.makeText(getActivity(), "Минус",
+                        Toast.LENGTH_SHORT).show();
+                count -= 1;
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Korz");
+
+                HashMap<String, Object> hashMap = new HashMap<>();
+
+                hashMap.put("frName", modelKorz.frName);
+                hashMap.put("lastName", modelKorz.lastName);
+                hashMap.put("imageId", modelKorz.imageId);
+                hashMap.put("job", modelKorz.job);
+                hashMap.put("key", modelKorz.key);
+                hashMap.put("age", modelKorz.age);
+                hashMap.put("count", count);
+
+                reference.child(modelKorz.lastName).setValue(hashMap);
 
             }
         });
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,13 +165,13 @@ public class Korzina extends Fragment{
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                result.add(dataSnapshot.getValue(Model.class));
+                result.add(dataSnapshot.getValue(ModelKorz.class));
                 adap.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Model model = dataSnapshot.getValue(Model.class);
+                ModelKorz model = dataSnapshot.getValue(ModelKorz.class);
                 int index = getItemIndex(model);
 
                 result.set(index, model);
@@ -132,7 +181,7 @@ public class Korzina extends Fragment{
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Model model = dataSnapshot.getValue(Model.class);
+                ModelKorz model = dataSnapshot.getValue(ModelKorz.class);
                 int index = getItemIndex(model);
 
                 result.remove(index);
@@ -151,7 +200,7 @@ public class Korzina extends Fragment{
         });
 
     }
-    private int getItemIndex(Model user){
+    private int getItemIndex(ModelKorz user){
         int index = -1;
 
         for (int i = 0; i < result.size(); i++) {

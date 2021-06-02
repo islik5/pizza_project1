@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSendDataListener{
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class MainActivity extends AppCompatActivity {
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.menu:
                 fragmentTransaction.replace(R.id.fragmentContainerView, fr_menu);
                 break;
@@ -49,12 +52,13 @@ public class MainActivity extends AppCompatActivity implements Menu.OnFragmentSe
         }
 
 
-
         fragmentTransaction.commit();
     }
 
-    @Override
-    public void onSendData(Button button) {
-//        click(button);
+    public void delete(ModelKorz modelKorz, FirebaseDatabase database) {
+        DatabaseReference reference = database.getReference("Korz");
+
+        reference.child(modelKorz.lastName).removeValue();
     }
+
 }

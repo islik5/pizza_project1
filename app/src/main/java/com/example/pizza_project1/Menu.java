@@ -14,9 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,32 +26,17 @@ import java.util.List;
 
 public class Menu extends Fragment {
 
-    interface OnFragmentSendDataListener {
-        void onSendData(Button button);
-    }
 
-
-    private OnFragmentSendDataListener fragmentSendDataListener;
 
     private RecyclerView recyclerView;
-    private List<UserModel> result;
-    public UserAdapter adapter;
+    private List<PizzaModel> result;
+    public PizzaAdapter adapter;
 
     private FirebaseDatabase database;
     private DatabaseReference reference;
 
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            fragmentSendDataListener = (OnFragmentSendDataListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " должен реализовывать интерфейс OnFragmentInteractionListener");
-        }
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,28 +56,25 @@ public class Menu extends Fragment {
         recyclerView.setLayoutManager(lim);
 
 
-        adapter = new UserAdapter(getActivity(),result, new UserAdapter.OnUserClickListener() {
+        adapter = new PizzaAdapter(getActivity(),result, new PizzaAdapter.OnUserClickListener() {
             @Override
-            public void onUserClick(UserModel userModel, int position) {
-                Toast.makeText(getActivity(), "Пицца "+ userModel.getFirstName()+" добавлена  в корзину",
+            public void onUserClick(PizzaModel pizzaModel, int position) {
+                Toast.makeText(getActivity(), "Пицца "+ pizzaModel.getFirstName()+" добавлена  в корзину",
                         Toast.LENGTH_SHORT).show();
-                fragmentSendDataListener.onSendData(view.findViewById(R.id.vkorzina));
-
-                HashMap<Object, String> hashMap = new HashMap<>();
-
-                hashMap.put("frName", userModel.firstName);
-                hashMap.put("lastName", userModel.lastName);
-                hashMap.put("imageId", userModel.imageId);
-                hashMap.put("job", userModel.job);
-                hashMap.put("key", userModel.key);
-                hashMap.put("age", userModel.age);
-
-
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-
                 DatabaseReference reference = database.getReference("Korz");
 
-                reference.child(userModel.lastName).setValue(hashMap);
+                HashMap<String, Object> hashMap = new HashMap<>();
+
+                hashMap.put("frName", pizzaModel.firstName);
+                hashMap.put("lastName", pizzaModel.lastName);
+                hashMap.put("imageId", pizzaModel.imageId);
+                hashMap.put("job", pizzaModel.job);
+                hashMap.put("key", pizzaModel.key);
+                hashMap.put("age", pizzaModel.age);
+                hashMap.put("count", 1);
+
+                reference.child(pizzaModel.lastName).setValue(hashMap);
 
             }
         });
@@ -134,14 +113,14 @@ public class Menu extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                result.add(dataSnapshot.getValue(UserModel.class));
+                result.add(dataSnapshot.getValue(PizzaModel.class));
                 adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                UserModel model = dataSnapshot.getValue(UserModel.class);
+                PizzaModel model = dataSnapshot.getValue(PizzaModel.class);
                 int index = getItemIndex(model);
                 result.set(index, model);
                 adapter.notifyItemChanged(index);
@@ -151,7 +130,7 @@ public class Menu extends Fragment {
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                UserModel model = dataSnapshot.getValue(UserModel.class);
+                PizzaModel model = dataSnapshot.getValue(PizzaModel.class);
                 int index = getItemIndex(model);
                 result.remove(index);
                 adapter.notifyItemRemoved(index);
@@ -170,7 +149,7 @@ public class Menu extends Fragment {
         });
 
     }
-    private int getItemIndex(UserModel user){
+    private int getItemIndex(PizzaModel user){
         int index = -1;
 
         for (int i = 0; i < result.size(); i++) {

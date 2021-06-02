@@ -1,8 +1,6 @@
 package com.example.pizza_project1;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +15,12 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder>{
+public class PizzaAdapter extends RecyclerView.Adapter<PizzaAdapter.UserViewHolder>{
     interface OnUserClickListener{
-        void onUserClick(UserModel userModel, int position);
+        void onUserClick(PizzaModel userModel, int position);
     }
 
-    private final List<UserModel> list;
+    private final List<PizzaModel> list;
 
     private final LayoutInflater inflater;
 
@@ -30,7 +28,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
 
 
-    public UserAdapter(Context context,List<UserModel> list, OnUserClickListener onClickListener) {
+    public PizzaAdapter(Context context, List<PizzaModel> list, OnUserClickListener onClickListener) {
         this.inflater = LayoutInflater.from(context);
         this.list = list;
         this.onClickListener = onClickListener;
@@ -44,7 +42,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
 
-        UserModel user = list.get(position);
+        PizzaModel user = list.get(position);
 
         holder.textName.setText(user.firstName + " " + user.lastName);
         holder.textAge.setText(user.age + "");

@@ -28,8 +28,8 @@
 
     <TextView
         android:id="@+id/text_opis"
-        android:layout_width="209dp"
-        android:layout_height="56dp"
+        android:layout_width="271dp"
+        android:layout_height="88dp"
         android:layout_below="@id/text_name"
         android:layout_marginLeft="120dp"
         android:text="Работа"
@@ -50,7 +50,7 @@
         android:layout_width="150dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="120dp"
         android:layout_marginRight="0dp"
         android:backgroundTint="#FF1A1A"
         android:text="В корзину" />
